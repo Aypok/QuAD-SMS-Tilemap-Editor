@@ -1,0 +1,142 @@
+QuAD SMS Tilemap Editor v0.25
+=============================
+(C)opyright Aypok 2006 - 2011
+
+
+
+1) Requirements:
+----------------
+
+Real OSes:
+    Python
+    GTK2
+    PyGTK
+    PyGlade (GLADE library for Python)
+
+Windows: (Last checked in 2007, so may not be relevant today)
+    http://www.python.org/ftp/python/2.5.1/python-2.5.1.msi
+    http://gladewin32.sourceforge.net/modules/wfdownloads/visit.php?cid=14&lid=110
+    http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.10/pygtk-2.10.4-1.win32-py2.5.exe
+    http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.12/pygobject-2.12.3-1.win32-py2.5.exe
+    http://ftp.gnome.org/pub/GNOME/binaries/win32/pycairo/1.2/pycairo-1.2.6-1.win32-py2.5.exe
+    http://effbot.org/downloads/PIL-1.1.6.win32-py2.5.exe
+    
+    (Thanks to Moobert for testing this on Windows XP).
+
+
+
+2) Basic Info:
+--------------
+This is a simple tilemap editor for use with Sega Master System (SMS) tiles and tilemaps.  As far as I can see, most of the main functions work without bugs, but very few exceptions and errors are caught - so you may see your terminal filling up with warnings.
+
+It can read (import) and write (export) tiles and tilemaps in various ways. Most (if not all) of the exporting functions create data that you can include straight into your code - depending on your game engine. It supports formats that can be used by several types of engine (horizontal and vertical - but not reverse-vertical yet) - let me know if there's a type which needs including.
+
+One important note is that none of the exported data is compressed in any way. This application doesn't support compression for imports, either.
+
+
+
+3) Features:
+------------
+
+    -> Supports very large and very small tilemap sizes (tested upto 1024x1024).
+    -> Supports upto 512 Sega Master System (4bits) tiles (Game Gear tiles are currently unsupported) at a time.
+    -> Import tiles in textual hex and decimal formats (no textual binary, nor real binary, support yet).
+    -> Export tiles in textual hex format (one tile per line, 32 bytes).
+    -> Import tilemaps in textual hex and decimal formats (stored as bytes or words) - no binary support yet.
+    -> Export tilemaps in textual hex and decimal formats and non-textual binary. Supports many export options.
+    -> Import images in PNG, JPEG, BMP and GIF formats and convert them to tiles and tilemaps.
+    -> Supports tile flags; vertical and horizontal flipping, palette selection and priority flags.
+    -> Unlimited undos/redos.
+    -> Palette changes on the fly (they take effect instantly).
+
+The tilemap exporting function supports many options: They can be written out as:
+
+    -> Single-byte textual hexidecimal (".db $00,$21,$45,$1f" - higher byte of each tile is omitted).
+    -> Double-byte (word) textual hexidecimal (".dw $0000,$0021,$0045,$001f").
+    -> Single-byte textual decimal (".db 00,33,69,31" - higher byte of each tile is omitted).
+    -> Double-byte (word) textual decimal (".dw 0000,0033,0069,0031").
+    -> Raw binary data (as either single-byte or double-byte data).
+
+There is also a new exporting feature in this version, which is called "Flip And Rotate". Normal export modes (with "Flip And Rotate" disabled) export the data as it is displayed to the user: from left to right, starting at the top-left and ending at the bottom-right - the way you would read/write a page of text. The "Flip And Rotate" feature will effectively flip the tilemap vertically, then rotate it 90 degrees clockwise (this will only be applied to the exported data - the visible tilemap will remain unchanged). It is best explained with a diagram: (The numbers and co-ordinated are there to help you see their movement. the data is written from left to right and from top to bottom in both cases)
+
+Normal export format:
+
+  x0    x1    x2    x3
+[[00], [01], [02], [03]] y0
+[[04], [05], [06], [07]] y1
+[[08], [09], [10], [11]] y2
+[[12], [13], [14], [15]] y3
+
+Flipped and rotated:
+
+  y0    y1    y2    y3
+[[00], [04], [08], [12]] x0
+[[01], [05], [09], [13]] x1
+[[02], [06], [10], [14]] x2
+[[03], [07], [11], [15]] x3
+
+At first glance, this may seem like a useless feature, but is useful for horizontally scrolling games. Storing data vertically (as in the normal export mode) is all well and good for vertically scrolling games, but is less than ideal for horizontal scrollers. The "Import Tilemap" function has an option to import "Flipped And Rotated" tilemaps in any of the normal formats accepted, too.
+
+
+
+4) Quick Tutorial:
+------------------
+Run the file "tilemap_editor.py". Depending on how your system is setup, you can either run it from a file browser (double-clicking) or from a terminal with "python tilemap_editor.py". Either way will be fine.
+
+You should now have a small window with a large black section on the left (the "Tilemap" area). Go to the "File" menu, then choose "Import Tiles". Browse to and choose the file "example_tiles.inc" which is included with this application (you can use any file you want, but I suggest using the examples provided if this is your first time). There should now be a lot more black lines/boxes to the right hand side of the window.
+
+Now go to the "Edit" menu and choose "Palette". In the top box (labeled "Tile Palette"), clear the list of numbers currently there, paste "$00,$15,$00,$3f,$3f,$2a,$24,$14,$39,$24,$29,$3f,$3e,$3a,$00,$00" and click "OK". The tiles, to the right side of the window, should now have colours and be visible. You can select any of them by clicking on them - the one you last clicked (which is the currently selected tile) will be shown, enlarged, at the bottom of the right-side of the main window (in the "Tiles" frame). If you click somewhere on the large black area to the left (the tilemap), you will see them appear.
+
+To load a tilemap, go to the "File" menu again and choose "Import Tilemap". In the file browser, select and open "example_tilemap.inc" - you will now see the tilemap loaded in the main section on the left. The example should read something like: "For the 2006 SMS Power! coding competition...". You will also notice that the vertical scrollbar has shrunk - the loaded tilemap is much bigger than 32x24 (which is roughly the default size of the window), so some of it is off-screen. Use the scrollbars to view the other sections of the tilemap - or enlarge the application window.
+
+After you have edited a tilemap and wish to export (save) it to a usable format, you can do so by going back to the "File" menu and choosing "Export Tilemap". A window with several option boxes and a filename entry will appear. The options will probably make no sense, so I shall quickly cover them here:
+
+"Bytes Per Line" - Allows you to limit the export to a certain number of TILES (not bytes, that needs to be fixed) per line. If the tilemap is 256 tiles wide, but you want it exported in a way where there are only 16 tiles per line, you can set that here. The default is "Full", which means it will put however many tiles are on each line on the line. This function (except "Full") is currently broken - the other options will truncate the lines and discard the extra info.
+
+"Data Format" - "Text (Hexidecimal)" means in a format like ".db $00,$43,$64,$35" or ".dw $0045,$0683,$0032,$0011", etc. "Text (Decimal)" is like ".db 87,34,12,0", etc. "Binary" means an actual binary datafile, not text form binary.
+
+"Extra Tile Data" - Whether or not to export the tile flags which set the flipping and priority. Currently ignores the whole higher byte of the tiles - to be fixed.
+
+"Write As" - Whether to write the data in byte format (".db $50,$43,$64,$35") or word format (".dw $0050,$0043,$0064,$0035").
+
+"Flip And Rotate" - Explained in detail above. It is recommended that you don't use this option unless you specifically need it.
+
+Click "Choose" to bring up a file browser, which will allow you to specify to where you want the data exported/saved. Once you have selected a destination file, the file browser will close and you will be returned to the "Export Tilemap" window. All you need to do now is to click "Export"! If an error occurs, the "Export Tilemap" window won't close and there will be errors printed to the terminal - feel free to contact me if such a situation arises, it probably means there's a bug I don't know about.
+
+Once the "Export Tilemap" window has closed itself, you can continue editing the tilemap, or go and use the tilemap for whatever it is you needed.
+
+
+
+4b) Other Very Basic Instructions:
+---------------------------------
+
+On the main window, you will see four option boxes at the bottom. The far left one is obvious - it zooms the tilemap. You can also zoom via the menu option "View" -> "Zoom".
+
+The "Draw Mode" sets the tile flipping, "Palette" sets whether the drawn tiles use the tile or sprite palette, and "Priority" sets whether the tiles should appear behind of or infront of the sprites. These options only affect the tiles drawn after they have been set and do not affect tiles already draw. Please note that their effects are NOT currently shown on the tilemap, but the info is saved and included in the tilemap export.
+
+Load tiles BEFORE the tilemap - you'll get errors otherwise. Use the "Fill Tiles" in the "Edit" menu if you have to.
+
+The palette defaults to all black, but can be set/changed at any point - before or after tiles/tilemaps have been loaded. The colours can be specified in hex or decimal. All colours not given will default to colour 0 - black. To specify a colour, use the related number (0 to 63, $0 to $3f) - see here: http://www.smspower.org/maxim/howtoprogram/lesson1.html (about half-way down).
+
+
+
+5) Known Bugs:
+--------------
+
+    -> The scrollbars don't work properly in zoom x2 and zoom x4 modes - you'll probably get a load of output in the terminals, which you can ignore. The down-side is that you cannot scroll to the far right/bottom edges of the tilemap when zoomed in. Doesn't affect non-zoomed (zoom x1) mode.
+    -> There is no way to clear the tiles.
+    -> The "Area Shown" label does not update when the window is resized - only when the scrollbars are used.
+    -> On the "Export Tilemap" window, the label "Bytes Per Line" should read "Tiles Per Line".
+    -> Limiting the tiles per line will omit and discard the remaining tiles from that line and does not wrap around.
+    -> Setting the tile flags are not shown on the tile or tilemap displays.
+
+
+
+6) Extra Stuff:
+---------------
+
+This was quickly hacked up in Python and is released under the GNU/GPL v2 - it's free ("libre") software/open source. It it far from complete and is currently a work in progress, Most of the main features are in a working state, hence the release. It was initially created to help me build the maps for my game "Digger Chan", but has been expanded to cope with my subsequent projects. This application currently has no official name, so I'm open to suggestions.
+
+This should be able to import tile and tilemap data straight out of Maxim's "BMP2Tile" application.
+
+Thanks to Moobert, Eno_ (both for help with the code) and SMS Power! for the documentation and stuff. :)
