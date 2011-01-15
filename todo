@@ -1,0 +1,15 @@
+A list of bugs that need fixing. Also includes some new features that'd be useful. Not really in any order...
+
+ -> Split the huge code file in to separate class files. Maybe make the naming less stupid, too. Maybe. :)
+ -> Include sample Z80 assembly on how to use the output.
+ -> Fix the scrollbars in zoom x2 and zoom x4 modes.
+ -> Add way to clear the tiles.
+ -> The "Area Shown" label does not update when the window is resized - only when the scrollbars are used.
+ -> On the "Export Tilemap" window, the label "Bytes Per Line" should read "Tiles Per Line".
+ -> Limiting the tiles per line will omit and discard the remaining tiles from that line and does not wrap around.
+ -> Setting the tile flags are not shown on the tile or tilemap displays.
+ -> Add pop-up warning when importing an image which uses too many unique tiles.
+ -> Allow click-and-drag functionality for pasting tiles.
+ -> Allow creation of "meta tiles" (groups of 8x8 tiles working together as one larger tile, making it easy to repeat patterns).
+ -> Some way to display non-visible properties of tiles (such as "above sprites").
+ -> When the "flip tiles" attribute is set on tiles, actually flip them.
