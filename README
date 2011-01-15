@@ -4,7 +4,34 @@ QuAD SMS Tilemap Editor v0.25
 
 
 
-1) Requirements:
+0) Contents
+1) Basic Info
+2) Requirements
+3) Features
+4) Quick Tutorial
+4b) Other Very Basic Instructions
+5) Known Bugs
+6) Licence
+7) Contribute
+8) Extra Stuff
+
+=============================
+
+
+
+1) Basic Info:
+--------------
+This is a simple tilemap editor for use with Sega Master System (SMS) tiles and tilemaps - primarily for use in the development of homebrew software. As far as I can see, most of the main functions work without bugs, but very few exceptions and errors are caught - so you may see your terminal filling up with warnings. Consider it "beta" quality.
+
+It can import images and build SMS-compatible tiles, tilemaps and palettes from it. It can read (import) and write (export) tiles and tilemaps in various ways. Most (if not all) of the exporting functions create data that you can include straight into your code - depending on your game engine. It supports formats that can be used by several types of engine (horizontal and vertical - but not reverse-vertical yet) - let me know if there's a type which needs including.
+
+One important note is that none of the exported data is compressed in any way. This application doesn't support compression for imports, either.
+
+IMPORTANT: Testing has all been done on Ubuntu Linux machines (except once on Windows XP back in 2007 - but not by me), so support for other systems may be very flaky - or non-existent. That is not intentional, I simply do not have access to machines running anything but Linux. If you run in to any difficulties on other platforms -- or, better yet, have anything which can help it run on non-Linux systems -- please see the "Contribute" section below and get in touch.
+
+
+
+2) Requirements:
 ----------------
 
 Real OSes:
@@ -22,16 +49,6 @@ Windows: (Last checked in 2007, so may not be relevant today)
     http://effbot.org/downloads/PIL-1.1.6.win32-py2.5.exe
     
     (Thanks to Moobert for testing this on Windows XP).
-
-
-
-2) Basic Info:
---------------
-This is a simple tilemap editor for use with Sega Master System (SMS) tiles and tilemaps.  As far as I can see, most of the main functions work without bugs, but very few exceptions and errors are caught - so you may see your terminal filling up with warnings.
-
-It can read (import) and write (export) tiles and tilemaps in various ways. Most (if not all) of the exporting functions create data that you can include straight into your code - depending on your game engine. It supports formats that can be used by several types of engine (horizontal and vertical - but not reverse-vertical yet) - let me know if there's a type which needs including.
-
-One important note is that none of the exported data is compressed in any way. This application doesn't support compression for imports, either.
 
 
 
@@ -108,7 +125,7 @@ Once the "Export Tilemap" window has closed itself, you can continue editing the
 
 
 4b) Other Very Basic Instructions:
----------------------------------
+----------------------------------
 
 On the main window, you will see four option boxes at the bottom. The far left one is obvious - it zooms the tilemap. You can also zoom via the menu option "View" -> "Zoom".
 
@@ -130,12 +147,28 @@ The palette defaults to all black, but can be set/changed at any point - before 
     -> Limiting the tiles per line will omit and discard the remaining tiles from that line and does not wrap around.
     -> Setting the tile flags are not shown on the tile or tilemap displays.
 
+See also the "todo" file.
 
 
-6) Extra Stuff:
+
+6) Licence:
+-----------
+
+GNU/GPL V2. See the "licence" file for full details.
+
+
+
+7) Contribute:
+--------------
+
+No, not money or anything like that. Code. Have any bug-fixes, new features, updates to the documentation, or even bug reports? Great! This is now on GitHub, so please use that for all contributions.
+
+
+
+8) Extra Stuff:
 ---------------
 
-This was quickly hacked up in Python and is released under the GNU/GPL v2 - it's free ("libre") software/open source. It it far from complete and is currently a work in progress, Most of the main features are in a working state, hence the release. It was initially created to help me build the maps for my game "Digger Chan", but has been expanded to cope with my subsequent projects. This application currently has no official name, so I'm open to suggestions.
+This was quickly hacked up in Python and is released under the GNU/GPL v2 - it's free ("libre") software/open source. It it far from complete and is currently a work in progress, Most of the main features are in a working state, hence the release. It was initially created to help me build the maps for my game "Digger Chan", but has been expanded to cope with my subsequent projects.
 
 This should be able to import tile and tilemap data straight out of Maxim's "BMP2Tile" application.
 
